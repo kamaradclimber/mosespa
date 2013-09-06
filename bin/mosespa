@@ -1,0 +1,96 @@
+#!/bin/env ruby
+
+require 'jira'
+require 'trollop'
+require 'yaml'
+begin
+  load 'lib/mosespa.rb'
+rescue LoadError
+  require 'mosespa'
+end
+
+default_config = '~/.mosespa'
+
+SUB_COMMANDS = %w(show comment create)
+global_opts = Trollop::options do
+  banner '"Oh, my bones are aching."'
+  banner "play with jira on command line"
+  opt :url, "Set the jira url", :short => "-u", :type => String
+  opt :password, "Set the password to connect to jira", :short => '-p', :type => String
+  opt :login, "Set the username to connectio to jira", :short => '-l', :type => String
+  opt :debug, "Output all possible information"
+  opt :config, "Configuration file location", :short => '-f', :default => default_config
+  stop_on SUB_COMMANDS
+end
+
+raise "#{global_opts[:config]} does not exists" unless global_opts[:config].eql? default_config or File.exists? File.expand_path(global_opts[:config])
+
+cmd = ARGV.shift #get the subcommand
+main_arg = ARGV.shift
+cmd_opts =
+  case cmd
+  when "show"
+    Trollop::options do
+      opt :verbose, "Output more information"
+    end
+  when "comment"
+    comment = ARGV.join(" ")
+    Trollop::options do end
+  when "create"
+    Trollop::options do
+      opt :summary, "The title of the new ticket", :short => '-s', :type => String
+      opt :description, "The description the new ticket", :short => '-d', :type => String
+    end
+  end
+puts "Sub command :#{global_opts.inspect}" if global_opts[:debug]
+puts "Rest : #{ARGV.inspect}" if global_opts[:debug]
+
+config = Hash.new
+begin
+  config = YAML.load_file(File.expand_path(global_opts[:config]))
+rescue Errno::ENOENT => e
+  fail e unless global_opts[:config].eql? default_config
+end
+
+options = {
+  :username => global_opts[:login] || config['login'],
+  :password => global_opts[:password] || config['password'],
+  :site => global_opts[:url] || config['url'],
+  :auth_type => :basic,
+  :context_path => '',
+  :use_ssl => false
+}
+
+
+client = JIRA::Client.new(options)
+case main_arg
+when /[[:alpha:]]+-[[:digit:]]+/ #ticket
+  begin
+    issue = main_arg
+    id = client.Issue.jql("key = #{issue}").first.id
+    ticket = client.Issue.find(id)
+  rescue JIRA::HTTPError => e
+    $stderr.puts e.inspect if global_opts[:debug]
+    abort("Invalid issue? (use --debug to have more information)")
+  end
+when /[[:alpha:]]+/ #project
+  begin
+    project_id = main_arg
+    project = client.Project.find(project_id)
+  rescue JIRA::HTTPError => e
+    $stderr.puts e.inspect if global_opts[:debug]
+    abort("Invalid project?(use --debug to have more information")
+  end
+end
+
+
+
+m = Mosespa::Mosespa.new
+case cmd
+when 'show'
+  m.show(ticket, global_opts[:debug], cmd_opts[:verbose])
+when 'comment'
+  m.comment(ticket, comment)
+when 'create'
+  m.create(client, project, cmd_opts[:summary], cmd_opts[:description])
+end
