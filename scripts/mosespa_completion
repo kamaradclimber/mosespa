@@ -1,0 +1,8 @@
+#!/bin/sh
+
+_mosespa() {
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    COMPREPLY=( $(compgen -W "create show comment browse" -- $cur) )
+}
+
+complete -F _mosespa mosespa
