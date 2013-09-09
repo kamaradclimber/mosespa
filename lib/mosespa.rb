@@ -19,6 +19,10 @@ module Mosespa
       end
     end
 
+    def browse(url)
+      `#{ENV['BROWSER']} #{url}`
+    end
+
     def comment(ticket, comment)
       c = ticket.comments.build
       c.save({'body' => comment})
