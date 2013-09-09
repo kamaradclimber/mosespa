@@ -54,7 +54,13 @@ If mosespa did not help you, you can launch your $BROWSER on a ticket page with:
 Installation
 ------------
 
+##### From rubygem.org
+gem install mosespa
+
+
+#### From source
 Clone this repository, ```gem build mosespa.gemspec``` and ```gem install mosespa*gem```
 
+NB:
 If you want (very) basic bash completion (on sub commands only for now), you can include completion_mosespa file in your .bashrc.
 Contributions are welcomed on that too !
