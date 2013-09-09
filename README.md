@@ -7,7 +7,8 @@ This uses the REST interface of jira.
 Basic command includes :
 - ```show TICKET [--verbose]```
 - ```comment TICKET a free text comment```
-- ``` create PROJECT```
+- ```create PROJECT```
+- ```browse TICKET```
 
 Usage
 --------
@@ -45,6 +46,10 @@ To create tickets:
 
 If you don't specify the summary option (```mosespa create COOK```), mosespa will open you favorite $EDITOR to help you create a new ticket.
 
+### Browsing
+
+If mosespa did not help you, you can launch your $BROWSER on a ticket page with:
+```mosespa browse COOK-2878```
 
 Installation
 ------------
