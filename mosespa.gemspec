@@ -3,9 +3,10 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "mosespa"
-  s.version     = '0.0.4'
+  s.version     = '0.0.5'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Grégoire Seux"]
+  s.license     = "Apache License v2"
   s.summary     = %q{Play on command line with JIRA}
   s.homepage    = "http://github.com/kamaradclimber/mosespa"
   s.description = %q{}

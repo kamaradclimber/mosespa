@@ -55,3 +55,6 @@ Installation
 ------------
 
 Clone this repository, ```gem build mosespa.gemspec``` and ```gem install mosespa*gem```
+
+If you want (very) basic bash completion (on sub commands only for now), you can include completion_mosespa file in your .bashrc.
+Contributions are welcomed on that too !
