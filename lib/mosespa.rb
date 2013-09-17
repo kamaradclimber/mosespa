@@ -9,7 +9,7 @@ module Mosespa
       if json
         puts ticket.to_json
       else
-        puts "#{ticket.key} #{ticket.summary}"
+        puts "#{ticket.key} (#{ticket.status.name}) #{ticket.summary}"
         if verbose
           puts ticket.summary
           ticket.comments.each do |c|
