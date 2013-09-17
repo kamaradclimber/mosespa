@@ -9,6 +9,7 @@ Basic command includes :
 - ```comment TICKET a free text comment```
 - ```create PROJECT```
 - ```browse TICKET```
+- ```search a jql research```
 
 Usage
 --------
@@ -50,6 +51,12 @@ If you don't specify the summary option (```mosespa create COOK```), mosespa wil
 
 If mosespa did not help you, you can launch your $BROWSER on a ticket page with:
 ```mosespa browse COOK-2878```
+
+###Search
+
+To search for any jql:
+
+```mosespa search 'reporter in (currentUser())'```
 
 Installation
 ------------

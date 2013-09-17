@@ -11,7 +11,7 @@ end
 
 default_config = '~/.mosespa'
 
-SUB_COMMANDS = %w(show comment create browse)
+SUB_COMMANDS = %w(show comment create browse search)
 global_opts = Trollop::options do
   banner '"Oh, my bones are aching."'
   banner "play with jira on command line"
@@ -41,6 +41,9 @@ cmd_opts =
       opt :summary, "The title of the new ticket", :short => '-s', :type => String
       opt :description, "The description the new ticket", :short => '-d', :type => String
     end
+  when "search"
+    search_str = ([main_arg] + ARGV).join(" ")
+    Trollop::options do end
   when "browse"
     Trollop::options do
       opt :verbose, "Output more information"
@@ -67,8 +70,11 @@ options = {
 
 
 client = JIRA::Client.new(options)
+
+$stderr.puts "Main argument is #{main_arg}" if global_opts[:debug]
 case main_arg
 when /[[:alpha:]]+-[[:digit:]]+/ #ticket
+  $stderr.puts "Using ticket mode" if global_opts[:debug]
   begin
     issue = main_arg
     id = client.Issue.jql("key = #{issue}").first.id
@@ -77,13 +83,21 @@ when /[[:alpha:]]+-[[:digit:]]+/ #ticket
     $stderr.puts e.inspect if global_opts[:debug]
     abort("Invalid issue? (use --debug to have more information)")
   end
-when /[[:alpha:]]+/ #project
+when /[[:alpha:]]+$/ #project
+  $stderr.puts "Using project mode" if global_opts[:debug]
   begin
     project_id = main_arg
     project = client.Project.find(project_id)
   rescue JIRA::HTTPError => e
     $stderr.puts e.inspect if global_opts[:debug]
     abort("Invalid project?(use --debug to have more information")
+  end
+else # only search normally
+  begin
+    tickets = client.Issue.jql(search_str)
+  rescue JIRA::HTTPError => e
+    $stderr.puts e.inspect if global_opts[:debug]
+    abort("No result for this search ?")
   end
 end
 
@@ -99,4 +113,6 @@ when 'create'
   m.create(client, project, cmd_opts[:summary], cmd_opts[:description])
 when 'browse'
   m.browse((options[:site] + '/browse/'+ticket.key))
+when 'search'
+  m.search(tickets, global_opts[:debug], cmd_opts[:verbose])
 end

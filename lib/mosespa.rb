@@ -28,6 +28,10 @@ module Mosespa
       c.save({'body' => comment})
     end
 
+    def search(tickets, json, verbose)
+      tickets.each { |t| show(t, json, verbose) }
+    end
+
     def create(client, project, summary, description)
       file = Tempfile.new('mosespa')
       need_external_editor = summary.nil?
