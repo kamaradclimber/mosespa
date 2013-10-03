@@ -64,10 +64,10 @@ module Mosespa
       file.write("# Line starting with a # will be ignored\n")
       file.write("# The format is the same as a git commit\n")
       file.write("\n")
-      file.write("Summary line follows this template : [TaskType]: [Title]\n")
-      file.write("This means that if you write: Story: Create a prototype of SOA\n")
-      file.write("You'll get a new story about creating a SOA prototype")
-      file.write("The summary line is always followed by an empty line and may be followed by a description")
+      file.write("# Summary line follows this template : [TaskType]: [Title]\n")
+      file.write("# This means that if you write: Story: Create a prototype of SOA\n")
+      file.write("# You'll get a new story about creating a SOA prototype")
+      file.write("# The summary line is always followed by an empty line and may be followed by a description")
       file.write("\n\n")
       file.write("# /* vim: set filetype=gitcommit : */")
       file.close #need to flush
@@ -75,12 +75,13 @@ module Mosespa
       system "$EDITOR #{file.path}"
       all = file.read.lines.reject {|l| l.start_with? "#"}.map {|l| l.chop}
       summary = all[0]
-      m = /^(?<task_type>\w+):(.*)/.match(summary)
+      m = /^(\w+):(.*)/.match(summary)
       task_type, summary = m.to_a.drop(1) if m
 
       description = all.drop(2).join("\n")
-      puts "summary: #{summary}"
-      puts "description: #{description}"
+      $stderr.puts "Type: #{task_type}"
+      $stderr.puts "summary: #{summary}"
+      $stderr.puts "description: #{description}"
       file.close
       [task_type, summary, description]
     end
