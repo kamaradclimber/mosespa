@@ -37,7 +37,7 @@ To see more information such as comments : ```mosespa show COOK-2878 --verbose``
 To add a comment:
 ```mosespa comment COOK-2878 It does not merge properly can you rebase```
 
-If some characters are nice to bash:
+If some characters aren't nice to bash:
 ```mosespa comment COOK-2878 "It does not merge properly, could you rebase?"```
 
 ### Creating tickets
