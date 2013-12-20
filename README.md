@@ -1,6 +1,9 @@
 mosespa
 =======
 
+[![gem version](https://badge.fury.io/rb/mosespa.png)](http://badge.fury.io/rb/mosespa)
+[![dependency status](https://gemnasium.com/kamaradclimber/mosespa.png)](https://gemnasium.com/kamaradclimber/mosespa)
+
 mosespa is very small lib on top of jira-ruby gem to interact with jira on command-line.
 This uses the REST interface of jira.
 
