@@ -65,7 +65,8 @@ options = {
   :site => global_opts[:url] || config['url'],
   :auth_type => :basic,
   :context_path => '',
-  :use_ssl => false
+  :use_ssl => config['use_ssl'] || true,
+  :ssl_verify_mode => config['ssl_verify_mode'] || OpenSSL::SSL::VERIFY_PEER,
 }
 
 
@@ -97,6 +98,10 @@ else # only search normally
     tickets = client.Issue.jql(search_str)
   rescue JIRA::HTTPError => e
     $stderr.puts e.inspect if global_opts[:debug]
+    $stderr.puts e.code if global_opts[:debug]
+    $stderr.puts e.response if global_opts[:debug]
+    $stderr.puts e.message if global_opts[:debug]
+
     abort("No result for this search ?")
   end
 end
