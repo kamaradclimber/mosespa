@@ -20,6 +20,7 @@ global_opts = Trollop::options do
   opt :login, "Set the username to connectio to jira", :short => '-l', :type => String
   opt :debug, "Output all possible information"
   opt :config, "Configuration file location", :short => '-f', :default => default_config
+  opt :colorize, "If relevant, add color to output", :short => '-c'
   stop_on SUB_COMMANDS
 end
 
@@ -113,7 +114,7 @@ end
 m = Mosespa::Mosespa.new
 case cmd
 when 'show'
-  m.show(ticket, global_opts[:debug], cmd_opts[:verbose])
+  m.show(ticket, global_opts[:debug], cmd_opts[:verbose], global_opts[:colorize] || config['colorize'])
 when 'comment'
   m.comment(ticket, comment)
 when 'create'

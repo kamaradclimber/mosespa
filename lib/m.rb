@@ -4,8 +4,8 @@ require 'tempfile'
 
 module Mosespa
   class Mosespa
-    def show(ticket, json, verbose)
-      p = Puts.new
+    def show(ticket, json, verbose, colorize)
+      p = Puts.new(colorize)
       if json
         puts ticket.to_json
       else
@@ -89,7 +89,8 @@ module Mosespa
 
 
   class Puts
-    def initialize()
+    def initialize(colorize)
+      @colorize = colorize
       @colors = Hash.new
       @available_colors = Queue.new
       String.colors
@@ -98,12 +99,14 @@ module Mosespa
     end
 
     def puts(author, text)
-      unless @colors.has_key? author
-        a_color = @available_colors.pop
-        @colors[author] = a_color
+      if @colorize
+        unless @colors.has_key? author
+          a_color = @available_colors.pop
+          @colors[author] = a_color
+        end
+        c = @colors[author]
+        author = author.colorize( c )
       end
-      c = @colors[author]
-      author = author.colorize( c )
       $stdout.puts "#{author}: #{text}"
     end
   end
