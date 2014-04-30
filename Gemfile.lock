@@ -4,6 +4,7 @@ PATH
     mosespa (1.3.0)
       colorize
       jira-ruby
+      table_print
       trollop
 
 GEM
@@ -23,6 +24,7 @@ GEM
     json (1.8.1)
     minitest (5.3.3)
     oauth (0.4.7)
+    table_print (1.5.1)
     thread_safe (0.3.3)
     trollop (2.0)
     tzinfo (1.1.0)

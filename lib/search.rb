@@ -1,4 +1,5 @@
 require 'colorize'
+require 'table_print'
 
 module Mosespa
   class Search
@@ -13,14 +14,30 @@ module Mosespa
     end
 
     def print_search
-      @issues.each do |ticket|
-        color = color_for_update(ticket.updated)
-        $stdout.puts "#{ticket.key} #{ticket.updated} #{ticket.status.name} #{ticket.summary}".colorize(color)
-      end
-    end
-
-    def color_for_update(date)
-      :green
+      tp @issues,
+        "key",
+        {:updated => {:formatters => [DateColorFormatter.new]}},
+        "status.name",
+        "summary"
     end
   end
+
+  class DateColorFormatter
+    def format(value)
+      date = Time.parse(value)
+      now = Time.now
+      two_weeks_ago = now - 14*86400
+      one_month_ago = now - 30*86400
+
+      c = if date > two_weeks_ago
+            :green
+          else if value > one_month_ago
+            :yellow
+          else
+            :red
+          end end
+      date.strftime('%D').colorize( c )
+    end
+  end
+
 end

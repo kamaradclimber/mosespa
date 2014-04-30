@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "mosespa"
-  s.version     = '1.3.0'
+  s.version     = '1.4.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Grégoire Seux"]
   s.license     = "Apache License v2"
@@ -18,4 +18,5 @@ Gem::Specification.new do |s|
   s.add_dependency "jira-ruby"
   s.add_dependency 'trollop'
   s.add_dependency 'colorize'
+  s.add_dependency 'table_print'
 end
