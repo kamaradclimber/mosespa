@@ -122,5 +122,6 @@ when 'create'
 when 'browse'
   m.browse((options[:site] + '/browse/'+ticket.key))
 when 'search'
-  m.search(tickets, global_opts[:debug], cmd_opts[:verbose])
+  s.print_search
+  #m.search(tickets, global_opts[:debug], cmd_opts[:verbose])
 end
