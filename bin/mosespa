@@ -74,29 +74,27 @@ client = JIRA::Client.new(options)
 
 $stderr.puts "Main argument is #{main_arg}" if global_opts[:debug]
 
-if %w(show comment create browse).include? cmd
-  case main_arg
-  when /[[:alpha:]]+-[[:digit:]]+/ #ticket
-    $stderr.puts "Using ticket mode" if global_opts[:debug]
-    begin
-      issue = main_arg
-      id = client.Issue.jql("key = #{issue}").first.id
-      ticket = client.Issue.find(id)
-    rescue JIRA::HTTPError => e
-      $stderr.puts e.inspect if global_opts[:debug]
-      abort("Invalid issue? (use --debug to have more information)")
-    end
-  when /[[:alpha:]]+$/ #project
-    $stderr.puts "Using project mode" if global_opts[:debug]
-    begin
-      project_id = main_arg
-      project = client.Project.find(project_id)
-    rescue JIRA::HTTPError => e
-      $stderr.puts e.inspect if global_opts[:debug]
-      abort("Invalid project?(use --debug to have more information")
-    end
+case cmd
+when 'show','comment', 'browse'
+  $stderr.puts "Using ticket mode" if global_opts[:debug]
+  begin
+    issue = main_arg
+    id = client.Issue.jql("key = #{issue}").first.id
+    ticket = client.Issue.find(id)
+  rescue JIRA::HTTPError => e
+    $stderr.puts e.inspect if global_opts[:debug]
+    abort("Invalid issue? (use --debug to have more information)")
   end
-else # only search normally
+when 'create'
+  $stderr.puts "Using project mode" if global_opts[:debug]
+  begin
+    project_id = main_arg
+    project = client.Project.find(project_id)
+  rescue JIRA::HTTPError => e
+    $stderr.puts e.inspect if global_opts[:debug]
+    abort("Invalid project?(use --debug to have more information")
+  end
+when 'search'
   s = Mosespa::Search.new(client, config)
   begin
     tickets = s.search(search_str)
