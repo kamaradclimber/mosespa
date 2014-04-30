@@ -61,6 +61,17 @@ To search for any jql:
 
 ```mosespa search 'reporter in (currentUser())'```
 
+If you add search in your config file under named_search section:
+
+```
+named_search:
+  mine: assignee = currentUser()
+  watched: watcher = currentUser()
+```
+
+you'll be able to search easily with ```mosespa search watched```
+
+
 Installation
 ------------
 
