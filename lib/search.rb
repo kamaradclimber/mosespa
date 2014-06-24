@@ -31,7 +31,7 @@ module Mosespa
 
       c = if date > two_weeks_ago
             :green
-          else if value > one_month_ago
+          else if date > one_month_ago
             :yellow
           else
             :red
