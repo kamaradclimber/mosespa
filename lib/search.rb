@@ -10,7 +10,7 @@ module Mosespa
 
     def search(search_string)
       real_search = @named_search[search_string] || search_string
-      @issues = @client.Issue.jql(real_search)
+      @issues = @client.Issue.jql(real_search).sort_by { |i| i.updated }
     end
 
     def print_search
