@@ -16,7 +16,7 @@ module Mosespa
     def print_search
       tp @issues,
         "key",
-        {:updated => {:formatters => [DateColorFormatter.new]}},
+        {:updated => {:formatters => [DateColorFormatter.new], :width => 8}},
         "status.name",
         "summary"
     end
