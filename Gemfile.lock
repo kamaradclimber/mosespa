@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mosespa (1.4.3)
+    mosespa (1.4.4)
       colorize
       jira-ruby
       table_print
