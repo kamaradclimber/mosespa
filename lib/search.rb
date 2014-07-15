@@ -18,7 +18,7 @@ module Mosespa
         "key",
         {:updated => {:formatters => [DateColorFormatter.new], :width => 8}},
         "status.name",
-        "summary"
+        {:summary => { :width => 52 }}
     end
   end
 
