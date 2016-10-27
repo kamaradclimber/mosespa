@@ -10,6 +10,9 @@ module Mosespa
 
     def search(search_string)
       real_search = @named_search[search_string] || search_string
+      if real_search !~ /(=|in)/
+        real_search = "text ~ \"#{real_search}\""
+      end
       @issues = @client.Issue.jql(real_search).sort_by { |i| i.updated }
     end
 
