@@ -10,9 +10,8 @@ Gem::Specification.new do |s|
   s.summary     = %q{Play on command line with JIRA}
   s.homepage    = "http://github.com/kamaradclimber/mosespa"
   s.description = %q{}
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- test/{functional,unit}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.files         = `/bin/find . -type f`.split("\n")
+  s.executables   = `/bin/find bin/ -type f`.split("\n").map{ |f| File.basename(f) }
   #s.require_paths = ["lib"]
 
   s.add_dependency "jira-ruby"

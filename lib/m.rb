@@ -11,6 +11,7 @@ module Mosespa
       else
         puts "#{ticket.key} (#{ticket.status.name}) #{ticket.summary}"
         if verbose
+          puts ticket
           puts ticket.summary
           ticket.comments.each do |c|
             p.puts(c.author['name'], c.body)
