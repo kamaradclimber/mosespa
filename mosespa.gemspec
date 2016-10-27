@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "mosespa"
-  s.version     = '1.4.4'
+  s.version     = '1.4.5'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Grégoire Seux"]
   s.license     = "Apache License v2"

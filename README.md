@@ -7,6 +7,8 @@ mosespa
 mosespa is very small lib on top of jira-ruby gem to interact with jira on command-line.
 This uses the REST interface of jira.
 
+**Warning**: This gem has been written with very poor ruby skills. Don't look at it. It is quite useful though.
+
 Basic command includes :
 - ```show TICKET [--verbose]```
 - ```comment TICKET a free text comment```
